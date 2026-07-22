@@ -1,0 +1,218 @@
+.profil{
+
+min-height:70vh;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+color:white;
+
+}
+
+
+
+.cadre-profil{
+
+width:180px;
+
+height:180px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+margin-bottom:25px;
+
+overflow:hidden;
+
+}
+
+
+
+
+.photo-profil{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+object-position:center;
+
+}
+
+
+
+
+
+
+/* Réglages spécifiques des photos */
+
+
+.image-lionel{
+
+object-position:center 100%
+
+}
+
+
+
+.image-ambre{
+
+object-position:35% 90%;
+
+}
+
+
+
+
+.image-mickael{
+
+object-position:35% center;
+
+}
+
+
+
+
+
+
+
+.profil h1{
+
+font-size:40px;
+
+margin-bottom:30px;
+
+}
+
+
+
+
+
+.profil button{
+
+padding:15px 30px;
+
+border-radius:15px;
+
+border:none;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+.choix-gagnant{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+
+.profil-choix{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+}
+
+
+.rond-profil-choix{
+
+  width:70px;
+  height:70px;
+
+  border-radius:50%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+
+  border:3px solid white;
+
+  transition:.2s;
+
+}
+
+
+.image-profil-choix{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+}
+
+
+.profil-choix:hover .rond-profil-choix{
+
+  transform:scale(1.08);
+
+}
+
+
+.selection .rond-profil-choix{
+
+  border:4px solid white;
+
+  transform:scale(1.1);
+
+}
+
+.photo-profil{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+  object-position:center;
+}
+
+.selection .rond-profil-choix{
+
+  transform:scale(1.18);
+
+  border:4px solid white;
+
+  box-shadow:0 0 15px rgba(255,255,255,0.8);
+
+}
+
+
+.selection{
+
+  transition:.2s;
+
+}
+
+.profil-choix{
+
+  transition:.2s;
+
+}
+
+
+.profil-choix:hover{
+
+  transform:scale(1.05);
+
+}

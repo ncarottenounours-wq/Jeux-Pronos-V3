@@ -1,0 +1,388 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
+
+body{
+  background:#111;
+  overflow-x:hidden;
+}
+
+#root{
+  min-height:100vh;
+}
+
+.app{
+  min-height:100vh;
+  background:
+  linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
+  url("./assets/fond-palais.png");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  padding:20px;
+  padding-bottom:110px;
+}
+
+.card{
+  width:100%;
+  max-width:500px;
+  margin:20px auto;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  border-radius:22px;
+  padding:25px;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+h1{
+  color:white;
+  text-align:center;
+  font-size:34px;
+  margin-bottom:25px;
+  font-weight:700;
+}
+
+h2{
+  color:white;
+  margin-bottom:20px;
+  text-align:center;
+}
+
+h3{
+  color:white;
+  margin-bottom:12px;
+}
+
+p{
+  color:white;
+}
+
+select,
+input{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  margin-bottom:12px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  background:white;
+  outline:none;
+}
+
+.button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  background:#23b04a;
+  color:white;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+  margin-top:10px;
+}
+
+.button:hover{
+  transform:scale(1.02);
+}
+
+.button:active{
+  transform:scale(.98);
+}
+
+.backButton{
+  position:fixed;
+  top:15px;
+  left:15px;
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:50%;
+  background:white;
+  font-size:22px;
+  cursor:pointer;
+  z-index:999;
+  box-shadow:0 5px 15px rgba(0,0,0,.35);
+}
+
+.navigation{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  background:rgba(20,20,20,.96);
+  backdrop-filter:blur(12px);
+  padding:12px 0;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+.navigation button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:14px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.navigation button:hover{
+  color:#27c84d;
+}
+
+/* Match en cours */
+
+.matchCard{
+  background:#27c84d;
+  color:white;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+/* Match terminé */
+
+.matchCard.finished{
+  background:#6b6b6b;
+}
+
+.matchPlayers{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.player{
+  width:38%;
+  text-align:center;
+  font-size:20px;
+  font-weight:700;
+}
+
+.vs{
+  width:24%;
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.score{
+  margin-top:10px;
+  text-align:center;
+  font-size:38px;
+  font-weight:bold;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 15px;
+  border-radius:999px;
+  background:rgba(255,255,255,.25);
+  font-weight:bold;
+}
+
+.classementCard{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:white;
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.classementCard h3{
+  color:#222;
+  margin:0;
+}
+
+.stats{
+  display:flex;
+  gap:15px;
+  font-weight:bold;
+}
+
+.adminSection{
+  margin-top:30px;
+}
+
+.danger{
+  background:#d83b3b;
+}
+
+.secondary{
+  background:#6b6b6b;
+}
+
+@media(max-width:600px){
+
+h1{
+  font-size:28px;
+}
+
+.player{
+  font-size:17px;
+}
+
+.score{
+  font-size:32px;
+}
+
+.navigation button{
+  font-size:13px;
+}
+
+}
+
+/* Choix du profil au démarrage */
+
+.choix-profils{
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:22px;
+
+margin-top:25px;
+
+}
+
+
+
+.profil-choix{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+
+
+.profil-choix:hover{
+
+transform:scale(1.08);
+
+}
+
+
+
+
+
+.rond-profil-choix{
+
+width:75px;
+
+height:75px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+overflow:hidden;
+
+border:3px solid white;
+
+box-shadow:0 5px 15px rgba(0,0,0,.4);
+
+}
+
+
+
+
+.image-profil-choix{
+
+width:65px;
+
+height:65px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+
+
+
+
+.profil-choix p{
+
+margin-top:8px;
+
+font-size:14px;
+
+font-weight:600;
+
+color:white;
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+.choix-profils{
+
+gap:18px;
+
+}
+
+
+
+.rond-profil-choix{
+
+width:65px;
+
+height:65px;
+
+}
+
+
+
+.image-profil-choix{
+
+width:55px;
+
+height:55px;
+
+}
+
+
+
+.profil-choix p{
+
+font-size:13px;
+
+}
+
+
+}

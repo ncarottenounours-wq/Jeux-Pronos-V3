@@ -1,0 +1,129 @@
+.admin {
+  min-height: 100vh;
+  padding: 30px;
+  color: white;
+  background:
+  linear-gradient(
+    rgba(0,0,0,.65),
+    rgba(0,0,0,.85)
+  );
+}
+
+
+.admin h1 {
+  text-align: center;
+  font-size: 35px;
+}
+
+
+.creation,
+.liste {
+  background: rgba(0,0,0,.45);
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 15px;
+  max-width: 900px;
+}
+
+
+
+.boutons {
+  display:flex;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+
+
+button {
+
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:16px;
+
+}
+
+
+
+button.active {
+
+  background:#d4af37;
+  color:black;
+
+}
+
+
+
+.joueurs {
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+
+}
+
+
+
+.joueurs button {
+
+  background:#333;
+  color:white;
+
+}
+
+
+
+.joueurs button.choisi {
+
+  background:#1faa59;
+}
+
+
+
+.creer {
+
+  margin-top:25px;
+  width:100%;
+  background:#d4af37;
+  color:black;
+  font-weight:bold;
+
+}
+
+
+
+.match {
+
+  background:#222;
+  margin:15px 0;
+  padding:20px;
+  border-radius:12px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+}
+
+
+
+.match input {
+
+  width:70px;
+  margin:5px;
+  padding:8px;
+
+}
+
+
+
+.reset {
+
+  margin-top:20px;
+  background:#b30000;
+  color:white;
+  width:100%;
+
+}
