@@ -127,3 +127,10 @@ button.active {
   width:100%;
 
 }
+
+input[type="number"] {
+
+  color:black;
+  background:white;
+
+}

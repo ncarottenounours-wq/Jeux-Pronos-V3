@@ -763,3 +763,10 @@ gap:6px;
 color:white;
 font-weight:600;
 }
+
+.entree-score input {
+
+  color: black;
+  background:white;
+
+}
