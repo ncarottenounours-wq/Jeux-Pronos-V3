@@ -152,41 +152,45 @@ setMatches(data);
 function choisirJoueur(joueur){
 
 
-if(joueurs.includes(joueur)){
+setJoueurs((anciens)=>{
 
 
-setJoueurs(
+// si déjà sélectionné → retirer
+if(anciens.includes(joueur)){
 
-joueurs.filter(j=>j!==joueur)
-
-);
-
-
-return;
+return anciens.filter(j=>j!==joueur);
 
 }
 
 
-
-
-
+// limite joueurs
 const nombreMax = format==="Solo" ? 2 : 4;
 
 
+// empêcher doublon
+if(anciens.includes(joueur)){
 
-if(joueurs.length < nombreMax){
-
-
-setJoueurs([
-
-...joueurs,
-
-joueur
-
-]);
-
+return anciens;
 
 }
+
+
+// ajouter
+if(anciens.length < nombreMax){
+
+return [
+...anciens,
+joueur
+];
+
+}
+
+
+
+return anciens;
+
+
+});
 
 
 }
@@ -293,7 +297,124 @@ chargerMatchs();
 
 
 
+async function calculerPointsMatch(id, score1Final, score2Final){
 
+
+const {data:pronos,error}=await supabase
+
+.from("pronostics")
+
+.select("*")
+
+.eq("match_id",id);
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+
+for(const prono of pronos){
+
+
+let points = 0;
+
+let scoreExact = false;
+
+let bonVainqueur = false;
+
+
+
+
+
+if(
+
+Number(prono.score1) === Number(score1Final)
+
+&&
+
+Number(prono.score2) === Number(score2Final)
+
+){
+
+points = 3;
+
+scoreExact = true;
+
+}
+
+
+
+else {
+
+
+const gagnantMatch =
+
+Number(score1Final) > Number(score2Final)
+
+? "1"
+
+: "2";
+
+
+
+const gagnantProno =
+
+Number(prono.score1) > Number(prono.score2)
+
+? "1"
+
+: "2";
+
+
+
+
+if(gagnantMatch === gagnantProno){
+
+points = 1;
+
+bonVainqueur = true;
+
+}
+
+
+}
+
+
+
+
+
+await supabase
+
+.from("points_pronostics")
+
+.insert({
+
+joueur:prono.joueur,
+
+match_id:id,
+
+score_exact:scoreExact,
+
+bon_vainqueur:bonVainqueur,
+
+points:points
+
+});
+
+
+
+}
+
+
+}
 
 
 async function terminerMatch(id){
@@ -313,7 +434,6 @@ score.score2===""
 
 ){
 
-
 alert("Entre les scores");
 
 return;
@@ -321,6 +441,11 @@ return;
 }
 
 
+
+
+const score1Final = Number(score.score1);
+
+const score2Final = Number(score.score2);
 
 
 
@@ -331,9 +456,9 @@ const {error}=await supabase
 
 .update({
 
-score1_final:Number(score.score1),
+score1_final:score1Final,
 
-score2_final:Number(score.score2),
+score2_final:score2Final,
 
 termine:true
 
@@ -345,23 +470,39 @@ termine:true
 
 
 
-
 if(error){
 
 console.log(error);
 
 alert(error.message);
 
+return;
+
 }
 
+
+
+
+await calculerPointsMatch(
+
+id,
+
+score1Final,
+
+score2Final
+
+);
+
+
+
+
+alert("🏁 Match terminé + points calculés !");
 
 
 chargerMatchs();
 
 
-
 }
-
 
 
 
@@ -813,10 +954,8 @@ onClick={()=>choisirJoueur(j)}
 
 
 <p>
-
-Sélection :
-{joueurs.join(" - ")}
-
+Joueurs sélectionnés : {joueurs.length}/
+{format==="Solo" ? 2 : 4}
 </p>
 
 

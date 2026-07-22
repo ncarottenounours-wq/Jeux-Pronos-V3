@@ -40,7 +40,6 @@ const joueurs = [
 
 
 
-
 const images = {
 
 Nicolas,
@@ -54,7 +53,6 @@ Mickael,
 Helene
 
 };
-
 
 
 
@@ -81,18 +79,10 @@ Helene:"#95a5a6"
 
 
 
-
-
-
 export default function Classement({ouvrirProfil}){
 
 
-
 const [classement,setClassement] = useState([]);
-
-
-
-
 
 
 
@@ -111,25 +101,35 @@ chargerClassement();
 
 
 
-
 async function chargerClassement(){
 
 
-
-const {data,error}=await supabase
-
+const {data:pronos,error}=await supabase
 .from("pronostics")
-
 .select("*");
-
-
 
 
 
 if(error){
 
 console.log(error);
+return;
 
+}
+
+
+
+
+const {data:matches,error:matchError}=await supabase
+.from("matches")
+.select("*")
+.eq("termine",true);
+
+
+
+if(matchError){
+
+console.log(matchError);
 return;
 
 }
@@ -138,11 +138,8 @@ return;
 
 
 
-
 const {data:bonus}=await supabase
-
 .from("bonus_gagnant")
-
 .select("*");
 
 
@@ -154,26 +151,21 @@ const {data:bonus}=await supabase
 const resultat = joueurs.map((nom)=>{
 
 
+let points = 0;
+
+let exact = 0;
+
+let bons = 0;
 
 
 
-const mesPronos = data.filter(
 
-(p)=>p.joueur===nom
+
+const mesPronos = pronos.filter(
+
+p=>p.joueur===nom
 
 );
-
-
-
-
-
-
-let exact=0;
-
-let bons=0;
-
-let points=0;
-
 
 
 
@@ -184,25 +176,94 @@ mesPronos.forEach((p)=>{
 
 
 
-if(p.exact){
+const match = matches.find(
 
+m=>m.id === p.match_id
+
+);
+
+
+
+
+if(!match){
+
+return;
+
+}
+
+
+
+
+
+
+
+// SCORE EXACT
+
+if(
+
+Number(p.score1) === Number(match.score1_final)
+
+&&
+
+Number(p.score2) === Number(match.score2_final)
+
+){
+
+
+points += 3;
 
 exact++;
 
-points+=3;
-
+return;
 
 }
 
 
 
-else if(p.bon){
 
+
+
+
+
+// BON VAINQUEUR
+
+
+const gagnantMatch =
+
+Number(match.score1_final) >
+Number(match.score2_final)
+
+? "1"
+
+: "2";
+
+
+
+
+
+
+const gagnantProno =
+
+Number(p.score1) >
+Number(p.score2)
+
+? "1"
+
+: "2";
+
+
+
+
+
+
+
+if(gagnantMatch === gagnantProno){
+
+
+points += 1;
 
 bons++;
 
-points+=1;
-
 
 }
 
@@ -216,27 +277,26 @@ points+=1;
 
 
 
-// Ajout des points du gagnant du tournoi
 
-const mesBonus = bonus?.filter(
+// BONUS MEILLEUR JOUEUR
 
-(b)=>b.joueur===nom
+const bonusJoueur = bonus?.filter(
 
-) || [];
+b=>b.joueur===nom
 
-
-
+)||[];
 
 
-mesBonus.forEach((b)=>{
 
 
-points += b.points;
+
+bonusJoueur.forEach(()=>{
+
+
+points += 10;
 
 
 });
-
-
 
 
 
@@ -246,7 +306,6 @@ points += b.points;
 
 return {
 
-
 pseudo:nom,
 
 exact,
@@ -255,9 +314,7 @@ bons,
 
 points
 
-
 };
-
 
 
 
@@ -279,18 +336,10 @@ resultat.sort(
 
 
 
-
-
 setClassement(resultat);
 
 
-
 }
-
-
-
-
-
 
 
 
@@ -358,6 +407,7 @@ return (
 
 
 
+
 <div className="table-classement">
 
 
@@ -371,39 +421,26 @@ return (
 
 
 <div>
-
 Pseudo
-
 </div>
 
 
-
 <div>
-
 Pronos exact
-
 </div>
 
 
-
 <div>
-
 Bons Pronos
-
 </div>
 
 
-
 <div>
-
 Points
-
 </div>
 
 
-
 <div>
-
 </div>
 
 
@@ -448,7 +485,9 @@ cursor:ouvrirProfil ? "pointer":"default"
 
 
 
+
 <div className="pseudo">
+
 
 
 
@@ -483,6 +522,7 @@ className="mini-profil"
 
 
 
+
 </div>
 
 
@@ -503,7 +543,10 @@ className="mini-profil"
 
 
 
+
 </div>
+
+
 
 
 
@@ -542,6 +585,7 @@ className="mini-profil"
 {joueur.points}
 
 </div>
+
 
 
 
@@ -596,7 +640,10 @@ className="medaille"
 
 
 
+
 </div>
+
+
 
 
 

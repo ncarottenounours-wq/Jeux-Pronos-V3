@@ -302,44 +302,93 @@ onClick={()=>setMatchSelectionne(null)}
 
 <div className="joueurs-match-detail">
 
-  <div className="equipe-match">
 
-    <PhotoJoueur nom={matchSelectionne.joueur1}/>
-    <span>{matchSelectionne.joueur1}</span>
+<div className="equipe-match">
 
-    {matchSelectionne.joueur2 && (
-      <>
-        <PhotoJoueur nom={matchSelectionne.joueur2}/>
-        <span>{matchSelectionne.joueur2}</span>
-      </>
-    )}
 
-  </div>
+<PhotoJoueur nom={matchSelectionne.joueur1}/>
 
-  <h2>VS</h2>
+<span>
+{matchSelectionne.joueur1}
+</span>
 
-  <div className="equipe-match">
 
-    {matchSelectionne.joueur3 ? (
-      <>
-        <PhotoJoueur nom={matchSelectionne.joueur3}/>
-        <span>{matchSelectionne.joueur3}</span>
+{
+matchSelectionne.joueur3 && (
+<>
 
-        {matchSelectionne.joueur4 && (
-          <>
-            <PhotoJoueur nom={matchSelectionne.joueur4}/>
-            <span>{matchSelectionne.joueur4}</span>
-          </>
-        )}
-      </>
-    ) : (
-      <>
-        <PhotoJoueur nom={matchSelectionne.joueur2}/>
-        <span>{matchSelectionne.joueur2}</span>
-      </>
-    )}
+<PhotoJoueur nom={matchSelectionne.joueur2}/>
 
-  </div>
+<span>
+{matchSelectionne.joueur2}
+</span>
+
+</>
+)
+}
+
+
+</div>
+
+
+
+
+
+<h2>
+VS
+</h2>
+
+
+
+
+
+<div className="equipe-match">
+
+
+{
+matchSelectionne.joueur3 ? (
+
+<>
+
+<PhotoJoueur nom={matchSelectionne.joueur3}/>
+
+<span>
+{matchSelectionne.joueur3}
+</span>
+
+
+<PhotoJoueur nom={matchSelectionne.joueur4}/>
+
+<span>
+{matchSelectionne.joueur4}
+</span>
+
+</>
+
+)
+
+:
+
+(
+
+<>
+
+<PhotoJoueur nom={matchSelectionne.joueur2}/>
+
+<span>
+{matchSelectionne.joueur2}
+</span>
+
+</>
+
+)
+
+}
+
+
+</div>
+
+
 
 </div>
 
