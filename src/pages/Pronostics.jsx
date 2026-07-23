@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import "./Pronostics.css";
-import { activerNotifications } from "../notifications";
 
 
 import Nicolas from "../assets/Nicolas.png";
@@ -607,13 +606,6 @@ return (
 🎯 Pronostics
 
 </h1>
-
-<button
-className="creer"
-onClick={()=>activerNotifications(joueur)}
->
-🔔 Activer les notifications
-</button>
 
 
 
