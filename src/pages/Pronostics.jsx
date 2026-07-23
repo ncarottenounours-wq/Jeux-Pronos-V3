@@ -729,7 +729,7 @@ match.termine ?
 
 <span>
 
-Cliquer pour pronostiquer
+
 
 </span>
 
