@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import Pronostics from "./pages/Pronostics";
 import Classement from "./pages/Classement";
 import Admin from "./pages/Admin";
 import Profil from "./pages/Profil";
+import Notifications from "./pages/Notifications";
+import { supabase } from "./supabase";
 
 
 import Nicolas from "./assets/Nicolas.png";
@@ -83,6 +85,7 @@ function App() {
 
 
   const [onglet, setOnglet] = useState("pronos");
+  const [nouvellesNotifications, setNouvellesNotifications] = useState(0);
 
 
   // AJOUT POUR LE PROFIL VISITE
@@ -93,6 +96,36 @@ function App() {
 
 
   const estAdmin = joueur === "Nathan";
+
+
+
+useEffect(()=>{
+
+  async function chargerNotifications(){
+
+    if(!joueur) return;
+
+
+    const {data}=await supabase
+
+    .from("notifications")
+
+    .select("*")
+
+    .eq("joueur", joueur)
+
+    .eq("lu", false);
+
+
+    setNouvellesNotifications(data?.length || 0);
+
+  }
+
+
+  chargerNotifications();
+
+
+},[joueur,onglet]);
 
 
 
@@ -324,6 +357,12 @@ changerCompte={
 
 }
 
+{onglet === "notifications" &&
+
+<Notifications joueur={joueur}/>
+
+}
+
 
 
 
@@ -400,7 +439,22 @@ changerCompte={
 
 
 
+      <button
+onClick={()=>setOnglet("notifications")}
+className="notification-button"
+>
 
+🔔
+
+{nouvellesNotifications > 0 && (
+  <span className="point-notification"></span>
+)}
+
+<br/>
+
+Notifications
+
+</button>
 
 
 

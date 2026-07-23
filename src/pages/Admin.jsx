@@ -422,7 +422,33 @@ points:points
 
 });
 
+if(points > 0){
 
+  await supabase
+  .from("notifications")
+  .insert({
+
+    joueur: prono.joueur,
+
+    titre: scoreExact
+      ? "🎯 Tu as visé juste !"
+      : "👏 Bien vu !",
+
+    message: scoreExact
+      ? "Tu avais pronostiqué le score exact."
+      : "Tu avais trouvé le bon vainqueur.",
+
+    points: points,
+
+    match_id: id,
+
+    score_reel: `${score1Final}-${score2Final}`,
+
+    score_prono: `${prono.score1}-${prono.score2}`
+
+  });
+
+}
 
 }
 

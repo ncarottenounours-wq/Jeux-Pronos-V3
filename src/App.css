@@ -386,3 +386,26 @@ font-size:13px;
 
 
 }
+
+.notification-button{
+  position:relative;
+}
+
+
+.point-notification{
+
+position:absolute;
+
+top:6px;
+
+right:55px;
+
+width:9px;
+
+height:10px;
+
+background:red;
+
+border-radius:50%;
+
+}
