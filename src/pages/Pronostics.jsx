@@ -224,6 +224,14 @@ return pronos.find(
 
 async function enregistrerProno(){
 
+if(matchSelectionne.termine){
+
+  alert("🏁 Match terminé, les pronostics sont fermés");
+
+  return;
+
+}
+
 
 if(score1==="" || score2===""){
 
@@ -418,16 +426,26 @@ matchSelectionne.joueur3 ? (
 
 
 {
+matchSelectionne.termine ? (
+
+<div className="prono-enregistre">
+
+🏁 Match terminé
+
+</div>
+
+)
+
+:
 
 monProno()
-
 
 ?
 
 
 <div className="prono-enregistre">
 
-✅ Prono déjà enregistré
+✅ Prono enregistré
 
 </div>
 
