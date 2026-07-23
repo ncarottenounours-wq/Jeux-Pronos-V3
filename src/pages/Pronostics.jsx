@@ -119,27 +119,47 @@ chargerMatchs();
 
 async function chargerMatchs(){
 
-
 const {data,error}=await supabase
-
 .from("matches")
-
 .select("*")
-
 .order("created_at",{ascending:false});
 
 
-
 if(error){
-
 console.log(error);
-
 return;
-
 }
 
 
-setMatches(data);
+// récupérer les points du joueur connecté
+const {data: points} = await supabase
+.from("points_pronostics")
+.select("*")
+.eq("joueur", joueur);
+
+
+
+const matchsAvecPoints = data.map(match=>{
+
+
+const monPoint = points?.find(
+(p)=>p.match_id === match.id
+);
+
+
+return {
+
+...match,
+
+pointsUtilisateur: monPoint ? monPoint.points : null
+
+};
+
+
+});
+
+
+setMatches(matchsAvecPoints);
 
 
 }
@@ -674,36 +694,33 @@ onClick={()=>ouvrirMatch(match)}
 
 
 {
-
 match.termine ?
 
+<>
 
 <h1>
-
-{match.score1_final}
-
--
-
-{match.score2_final}
-
+{match.score1_final} - {match.score2_final}
 </h1>
 
+<p className="points-gagnes">
++{match.pointsUtilisateur || 0} pts
+</p>
+
+</>
 
 :
 
-
 <h1>
-
-?
-
--
-
-?
-
+? - ?
 </h1>
 
-
 }
+
+{match.termine && (
+  <p className="points-gagnes">
+    +{match.pointsUtilisateur || 0} pts
+  </p>
+)}
 
 
 

@@ -770,3 +770,16 @@ font-weight:600;
   background:white;
 
 }
+
+.carte-match{
+  position: relative;
+}
+
+.points-gagnes{
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  color: #2ecc71;
+  font-weight: bold;
+  font-size: 18px;
+}

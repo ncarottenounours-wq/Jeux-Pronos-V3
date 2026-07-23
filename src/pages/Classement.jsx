@@ -104,8 +104,10 @@ chargerClassement();
 async function chargerClassement(){
 
 
-const {data:pronos,error}=await supabase
+const {data,error}=await supabase
+
 .from("pronostics")
+
 .select("*");
 
 
@@ -113,6 +115,7 @@ const {data:pronos,error}=await supabase
 if(error){
 
 console.log(error);
+
 return;
 
 }
@@ -121,8 +124,11 @@ return;
 
 
 const {data:matches,error:matchError}=await supabase
+
 .from("matches")
+
 .select("*")
+
 .eq("termine",true);
 
 
@@ -130,6 +136,7 @@ const {data:matches,error:matchError}=await supabase
 if(matchError){
 
 console.log(matchError);
+
 return;
 
 }
@@ -139,8 +146,47 @@ return;
 
 
 const {data:bonus}=await supabase
+
 .from("bonus_gagnant")
+
 .select("*");
+
+
+
+
+
+
+const {data:param}=await supabase
+
+.from("parametres")
+
+.select("*")
+
+.eq("id",1)
+
+.single();
+
+
+
+
+
+let pointsExact = 10;
+
+let pointsBon = 3;
+
+
+
+if(param?.phases_finales){
+
+
+pointsExact = 15;
+
+pointsBon = 5;
+
+
+}
+
+
 
 
 
@@ -151,21 +197,23 @@ const {data:bonus}=await supabase
 const resultat = joueurs.map((nom)=>{
 
 
-let points = 0;
-
 let exact = 0;
 
 let bons = 0;
 
+let points = 0;
 
 
 
 
-const mesPronos = pronos.filter(
 
-p=>p.joueur===nom
+
+const mesPronos = data.filter(
+
+(p)=>p.joueur===nom
 
 );
+
 
 
 
@@ -178,10 +226,9 @@ mesPronos.forEach((p)=>{
 
 const match = matches.find(
 
-m=>m.id === p.match_id
+(m)=>m.id===p.match_id
 
 );
-
 
 
 
@@ -195,24 +242,23 @@ return;
 
 
 
-
-
 // SCORE EXACT
 
 if(
 
-Number(p.score1) === Number(match.score1_final)
+Number(p.score1)===Number(match.score1_final)
 
 &&
 
-Number(p.score2) === Number(match.score2_final)
+Number(p.score2)===Number(match.score2_final)
 
 ){
 
 
-points += 3;
-
 exact++;
+
+points += pointsExact;
+
 
 return;
 
@@ -222,15 +268,12 @@ return;
 
 
 
-
-
-
 // BON VAINQUEUR
-
 
 const gagnantMatch =
 
 Number(match.score1_final) >
+
 Number(match.score2_final)
 
 ? "1"
@@ -241,10 +284,10 @@ Number(match.score2_final)
 
 
 
-
 const gagnantProno =
 
 Number(p.score1) >
+
 Number(p.score2)
 
 ? "1"
@@ -256,13 +299,12 @@ Number(p.score2)
 
 
 
+if(gagnantMatch===gagnantProno){
 
-if(gagnantMatch === gagnantProno){
-
-
-points += 1;
 
 bons++;
+
+points += pointsBon;
 
 
 }
@@ -280,23 +322,23 @@ bons++;
 
 // BONUS MEILLEUR JOUEUR
 
-const bonusJoueur = bonus?.filter(
+const mesBonus = bonus?.filter(
 
-b=>b.joueur===nom
+(b)=>b.joueur===nom
 
 )||[];
 
 
 
 
+mesBonus.forEach((b)=>{
 
-bonusJoueur.forEach(()=>{
 
-
-points += 10;
+points += b.points;
 
 
 });
+
 
 
 
@@ -306,6 +348,7 @@ points += 10;
 
 return {
 
+
 pseudo:nom,
 
 exact,
@@ -314,12 +357,12 @@ bons,
 
 points
 
+
 };
 
 
 
 });
-
 
 
 
@@ -337,6 +380,7 @@ resultat.sort(
 
 
 setClassement(resultat);
+
 
 
 }

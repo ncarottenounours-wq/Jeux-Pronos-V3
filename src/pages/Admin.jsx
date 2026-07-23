@@ -299,6 +299,15 @@ chargerMatchs();
 
 async function calculerPointsMatch(id, score1Final, score2Final){
 
+const { data: param } = await supabase
+  .from("parametres")
+  .select("phases_finales")
+  .eq("id", 1)
+  .single();
+
+const pointsExact = param?.phases_finales ? 15 : 10;
+const pointsBon = param?.phases_finales ? 5 : 3;
+
 
 const {data:pronos,error}=await supabase
 
@@ -344,7 +353,7 @@ Number(prono.score2) === Number(score2Final)
 
 ){
 
-points = 3;
+points = pointsExact;
 
 scoreExact = true;
 
@@ -378,7 +387,7 @@ Number(prono.score1) > Number(prono.score2)
 
 if(gagnantMatch === gagnantProno){
 
-points = 1;
+points = pointsBon;
 
 bonVainqueur = true;
 
@@ -388,7 +397,11 @@ bonVainqueur = true;
 }
 
 
+if(prono.x2){
 
+points *= 2;
+
+}
 
 
 await supabase
@@ -531,7 +544,38 @@ chargerMatchs();
 
 
 
+async function activerPhasesFinales(){
 
+
+const {error}=await supabase
+
+.from("parametres")
+
+.update({
+
+phases_finales:true
+
+})
+
+.eq("id",1);
+
+
+
+if(error){
+
+console.log(error);
+
+alert(error.message);
+
+return;
+
+}
+
+
+alert("🏆 Mode phases finales activé");
+
+
+}
 
 
 
@@ -604,7 +648,7 @@ await supabase
 
 joueur:joueur.joueur,
 
-points:10
+points:"30"
 
 });
 
@@ -772,6 +816,18 @@ setVainqueurChoisi("");
 >
 
 ← Retour
+
+</button>
+
+<button
+
+className="creer"
+
+onClick={activerPhasesFinales}
+
+>
+
+🏆 Phases finales
 
 </button>
 
@@ -989,6 +1045,13 @@ onClick={()=>setModeFinTournoi(true)}
 
 🏆 Fin de tournoi
 
+</button>
+
+<button
+className="creer"
+onClick={activerPhasesFinales}
+>
+🏆 Activer les phases finales
 </button>
 
 
@@ -1269,6 +1332,13 @@ await supabase
 
 .neq("id",0);
 
+await supabase
+  .from("parametres")
+  .update({
+    phases_finales: false
+  })
+  .eq("id", 1);
+
 
 
 alert("🔥 Reset complet effectué");
@@ -1312,5 +1382,31 @@ chargerMatchs();
 
 );
 
+
+}
+
+<button
+className="creer"
+onClick={changerPhaseFinale}
+>
+🏆 Phases finales
+</button>
+
+async function changerPhaseFinale(){
+
+await supabase
+
+.from("parametres")
+
+.update({
+
+phases_finales:true
+
+})
+
+.eq("id",1);
+
+
+alert("🏆 Mode phases finales activé");
 
 }
